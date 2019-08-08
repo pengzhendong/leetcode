@@ -1,0 +1,8 @@
+.vscode
+!.vscode/settings.json
+
+# Mac OS file
+.DS_Store
+
+# Compiled class file
+*.class
