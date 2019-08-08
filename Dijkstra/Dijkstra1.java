@@ -1,7 +1,6 @@
 class Dijkstra1 {
     private static final int INF = Integer.MAX_VALUE;
 
-    // 稀疏图使用临界矩阵。单源最短路径，时间复杂度 O(V^2)
     public static int[] dijkstra(int[][] graph, int source) {
         int size = graph.length;
 

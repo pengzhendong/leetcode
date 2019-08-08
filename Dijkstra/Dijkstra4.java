@@ -17,29 +17,30 @@ class Edge {
 class Dijkstra4 {
     private static final int INF = Integer.MAX_VALUE;
 
-    // 由于需要多次取最小值，可以使用优先队列（插入一个元素的时间复杂度为 O(logn)）维护 found 中的点到 source 的最短距离
-    // 单源最短路径，时间复杂度 O(ElogV)
     public static int[] dijkstra(List<List<Edge>> graph, int source) {
         int size = graph.size();
 
         int[] distances = new int[size];
+        // 可以使用优先队列维护每个顶点到 source 的最短距离
         Queue<Edge> pq = new PriorityQueue<>((o1, o2) -> o1.weight - o2.weight);
 
         Arrays.fill(distances, INF);
         distances[source] = 0;
         pq.add(new Edge(source, 0));
         
-        // 循环 size - 1 次，每次找出一个顶点到 source 的最短距离
         while (!pq.isEmpty()) {
-            // 从 unfound 集合中找一个距离 source 最近的点 min_edge.to，将该点标记为 found
+            // 取出距离 source 最近的顶点
             Edge min_edge = pq.poll();
-            // found[min_edge.to] = true;
-            if (distances[min_edge.to] < min_edge.weight) continue;
+            // 每次更新顶点到 source 的最短距离的时候，都会将该顶点加入优先队列。
+            // 所以队列中某一个顶点可能会出现多次，但到 source 的最短距离是一直在减小的，因为 distances 记录着最短的距离。
+            // 因此 min_edge.weight != distances[min_edge.to]，表示该顶点的信息不是这一轮的，继续取。
+            if (min_edge.weight != distances[min_edge.to]) continue;
 
             for (Edge edge : graph.get(min_edge.to)) {
                 int distance = min_edge.weight + edge.weight;
                 if (distance < distances[edge.to]) {
                     distances[edge.to] = distance;
+                    // 此处加入优先队列的不是边，只是记录了每个顶点到 source 的最短距离
                     pq.add(new Edge(edge.to, distance));
                 }
             }

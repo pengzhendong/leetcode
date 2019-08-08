@@ -15,7 +15,6 @@ class Edge {
 class Dijkstra3 {
     private static final int INF = Integer.MAX_VALUE;
 
-    // 稠密图使用邻接表。单源最短路径，时间复杂度 O(V^2)
     public static int[] dijkstra(List<List<Edge>> graph, int source) {
         int size = graph.size();
 
