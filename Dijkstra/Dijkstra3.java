@@ -1,7 +1,6 @@
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 class Edge {
 	int to;
@@ -12,7 +11,7 @@ class Edge {
 	}
 }
 
-class Dijkstra3 {
+public class Dijkstra3 {
     private static final int INF = Integer.MAX_VALUE;
 
     public static int[] dijkstra(List<List<Edge>> graph, int source) {
@@ -70,7 +69,7 @@ class Dijkstra3 {
 
         List<List<Edge>> graph = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            List<Edge> edges = new LinkedList<>();
+            List<Edge> edges = new ArrayList<>();
             for (int j = 0; j < size; j++) {
                 if (data[i][j] != INF) edges.add(new Edge(j, data[i][j]));
             }

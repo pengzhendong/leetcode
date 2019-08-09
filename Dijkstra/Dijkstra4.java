@@ -3,7 +3,6 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 class Edge {
 	int to;
@@ -65,7 +64,7 @@ class Dijkstra4 {
 
         List<List<Edge>> graph = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            List<Edge> edges = new LinkedList<>();
+            List<Edge> edges = new ArrayList<>();
             for (int j = 0; j < size; j++) {
                 if (data[i][j] != INF) edges.add(new Edge(j, data[i][j]));
             }

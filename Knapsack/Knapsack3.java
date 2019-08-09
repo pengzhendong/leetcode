@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-class Knapsack2 {
+public class Knapsack2 {
     public static int knapsack01(int[] w, int[] v, int C) {
         int len = w.length;
         if (len == 0 || C == 0) return 0;

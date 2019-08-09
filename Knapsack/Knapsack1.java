@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-class Knapsack1 {
+public class Knapsack1 {
     private static int[] weight;
     private static int[] value;
     private static int[][] memo;

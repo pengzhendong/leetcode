@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-class LCS3 {
+public class LCS3 {
     public static int longestCommonSubsequence(String A, String B) {
         int m = A.length();
         int n = B.length();

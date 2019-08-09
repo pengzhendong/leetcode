@@ -1,4 +1,4 @@
-class Dijkstra2 {
+public class Dijkstra2 {
     private static final int INF = Integer.MAX_VALUE;
 
     public static int[][] dijkstra(int[][] graph, int source) {

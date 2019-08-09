@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-class LCS1 {
+public class LCS1 {
     private static String s1;
     private static String s2;
     private static int[][] memo;
