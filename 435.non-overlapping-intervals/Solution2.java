@@ -47,13 +47,7 @@ class Solution {
         int len = intervals.length;
         if (len == 0) return 0;
 
-        Arrays.sort(intervals, new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                if (o1[1] != o2[1]) return Integer.compare(o1[1], o2[1]);
-                return Integer.compare(o1[0], o2[0]);
-            }
-        });
+        Arrays.sort(intervals, (o1, o2) -> (o1[1] != o2[1]) ? Integer.compare(o1[1], o2[1]) : Integer.compare(o1[0], o2[0]));
         
         int ret = 1;
         int pre = 0;

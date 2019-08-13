@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.*;
 
 public class LCS3 {
     public static int longestCommonSubsequence(String A, String B) {

@@ -37,10 +37,7 @@ class Solution {
             map.put(num, map.getOrDefault(num, 0) + 1);
         }
 
-        Queue<Integer> pq = new PriorityQueue<>(new Comparator<Integer>() {
-            public int compare(Integer o1, Integer o2) { return map.get(o2) - map.get(o1); }
-        });
-
+        Queue<Integer> pq = new PriorityQueue<>((o1, o2) -> map.get(o2) - map.get(o1));
         List<Integer> ret = new ArrayList<>();
         k = map.size() - k;
 

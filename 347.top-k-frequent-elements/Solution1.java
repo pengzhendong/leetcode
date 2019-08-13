@@ -36,9 +36,7 @@ class Solution {
             map.put(num, map.getOrDefault(num, 0) + 1);
         }
 
-        Queue<Integer> pq = new PriorityQueue<>(new Comparator<Integer>() {
-            public int compare(Integer o1, Integer o2) { return map.get(o1) - map.get(o2); }
-        });
+        Queue<Integer> pq = new PriorityQueue<>((o1, o2) -> map.get(o1) - map.get(o2));
 
         for (int key : map.keySet()) {
             if (pq.size() == k && map.get(key) < map.get(pq.peek())) continue;

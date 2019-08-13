@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.*;
 
 public class LCS1 {
     private static String s1;

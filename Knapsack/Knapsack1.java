@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.*;
 
 public class Knapsack1 {
     private static int[] weight;

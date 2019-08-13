@@ -34,9 +34,7 @@ import java.util.*;
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        Queue<ListNode> pq = new PriorityQueue<>(new Comparator<ListNode>() {
-            public int compare(ListNode o1, ListNode o2) { return o1.val - o2.val; }
-        });
+        Queue<ListNode> pq = new PriorityQueue<>((o1, o2) -> o1.val - o2.val);
         for (int i = 0; i < lists.length; i++) {
             if (lists[i] != null) pq.offer(lists[i]);
         }
