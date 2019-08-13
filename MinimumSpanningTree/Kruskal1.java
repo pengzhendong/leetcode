@@ -11,7 +11,7 @@ class Edge {
 	}
 }
 
-public class Kruskal {
+public class Kruskal1 {
     private static final int INF = Integer.MAX_VALUE;
 
     private int[] ids;
@@ -21,7 +21,7 @@ public class Kruskal {
     private int vNum;
     private List<Edge> edges;
 
-    public Kruskal(int[][] graph) {
+    public Kruskal1(int[][] graph) {
         this.graph = graph;
         // 初始化每个顶点对应一个连通分量，连通分量的触点数为 1
         vNum = graph.length;
@@ -36,11 +36,10 @@ public class Kruskal {
     }
 
     private List<Edge> getSortedEdges() {
-        int size = graph.length;
         List<Edge> edges = new ArrayList<>();
 
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i < vNum; i++) {
+            for (int j = 0; j < vNum; j++) {
                 if (graph[i][j] != INF) edges.add(new Edge(i, j, graph[i][j]));
             }
         }
@@ -101,7 +100,7 @@ public class Kruskal {
 
         long startTime = System.currentTimeMillis();
 
-        Kruskal kruskal = new Kruskal(graph);
+        Kruskal1 kruskal = new Kruskal1(graph);
         Edge[] mst = kruskal.kruskal();
         int weight = 0;
         for (Edge edge : mst) {
