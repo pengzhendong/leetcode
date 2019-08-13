@@ -17,7 +17,7 @@ public class UF2 {
     // 查找操作比较慢，需要往上查找直到根触点（树根）
     private int find(int p) { 
         while (p != ids[p]) p = ids[p];
-        return p; 
+        return p;
     }
     // 可以快速合并，只需要将其中一个连通分量的根触点连接到另一个连通分量的根触点
     public void quickUnion(int p, int q) {
