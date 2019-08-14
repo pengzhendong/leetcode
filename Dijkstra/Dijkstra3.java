@@ -20,7 +20,7 @@ public class Dijkstra3 {
         // 维护数组 distances 表示 source 到其他顶点的最短距离
         int[] distances = new int[size];
 
-        // 初始化 visited 和 distances 数组
+        // 初始化 found 和 distances 数组
         found[source] = true;
         Arrays.fill(distances, INF);
         for (Edge edge : graph.get(source)) {

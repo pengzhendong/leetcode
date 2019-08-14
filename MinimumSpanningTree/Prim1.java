@@ -1,26 +1,37 @@
+class Edge {
+    int from;
+	int to;
+	int weight;
+	Edge(int from, int to, int weight) {
+        this.from = from;
+		this.to  = to;
+		this.weight = weight;
+	}
+}
+
 public class Prim1 {
     private static final int INF = Integer.MAX_VALUE;
 
     public static Edge[] prim(int[][] graph, int source) {
         int vNum = graph.length;
         Edge[] mst = new Edge[vNum - 1];
-        boolean[] visited = new boolean[vNum];
+        boolean[] marked = new boolean[vNum];
 
-        visited[source] = true;
+        marked[source] = true;
 
         // 将 V - 1 条边加入最小生成树
         for (int n = 0; n < vNum - 1; n++) {
             Edge minEdge = new Edge(-1, -1, INF);
-            // 遍历 from 在 visited， to 在 unvisited 的边，找权重最小的一条加入最小生成树，即访问 to 对应的顶点
+            // 遍历 from 在 marked， to 在 unmarked 的边，找权重最小的一条加入最小生成树，即标记 to 对应的顶点
             for (int i = 0; i < vNum; i++) {
-                if (!visited[i]) continue;
+                if (!marked[i]) continue;
                 for (int j = 0; j < vNum; j++) {
-                    if (visited[j]) continue;
+                    if (marked[j]) continue;
                     if (graph[i][j] < minEdge.weight) minEdge = new Edge(i, j, graph[i][j]);
                 }
             }
 
-            visited[minEdge.to] = true;
+            marked[minEdge.to] = true;
             mst[n] = minEdge;
         }
         return mst;
