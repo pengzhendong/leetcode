@@ -1,0 +1,22 @@
+digraph G {
+    rankdir="LR";
+
+    0[shape=doublecircle];
+    7[shape=doublecircle];
+    
+    0 -> 1[label=A];
+    1 -> 2[label=B];
+    2 -> 3[label=C];
+    3 -> 4[label=A];
+    4 -> 5[label=B];
+    5 -> 6[label=D];
+    6 -> 7[label=B];
+
+    0 -> 0[label="next[0] = 0", constraint=false];
+    1 -> 0[label="next[1] = 0", constraint=false];
+    2 -> 0[label="next[2] = 0", constraint=false];
+    3 -> 0[label="next[3] = 0", constraint=false];
+    4 -> 1[label="next[4] = 1", constraint=false];
+    5 -> 2[label="next[5] = 2", constraint=false];
+    6 -> 0[label="next[6] = 0", constraint=false];
+}
