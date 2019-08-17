@@ -4,7 +4,7 @@
 
 找不到或无法加载主类：
 
-`rm .vscode`
+`rm -rf .vscode`
 
 * Windows: `rm -rf C:\Users\randypeng\AppData\Roaming\Code\User\workspaceStorage`
 * MacOSX: `rm -rf ~/Library/Application Support/Code/User/workspaceStorage`
