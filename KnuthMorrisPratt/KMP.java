@@ -1,35 +1,23 @@
 public class KMP {
-    // private static int[] getNext(String pattern) {
-    //     int len = pattern.length();
-    //     int[] next = new int[len];
-    //     next[0] = 0;
-    //     next[1] = 0;
-
-    //     int max = 0;
-    //     int i = 2;
-    //     while (i < len) {
-            
-    //     }
-    //     return next;
-    // }
-
     private static int[] getNext(String pattern) {
         int len = pattern.length();
         int[] next = new int[len];
-        next[0] = -1;
-        
-        int i = -1;
-        int j = 0;
-        while (j < len - 1) {
-            if (i == -1 || pattern.charAt(i) == pattern.charAt(j)) {
+        next[0] = 0;
+        next[1] = 0;
+
+        int i = 0;
+        int j = 2;
+        while (j < len) {
+            if (pattern.charAt(i) == pattern.charAt(j - 1)) {
                 i++;
+                if (pattern.charAt(i) == pattern.charAt(j)) next[j] = next[i];
+                else next[j] = i;
                 j++;
-                next[j] = i;
-                // if (pattern.charAt(i) != pattern.charAt(j)) next[j] = i;
-                // else next[j] = next[i];
-            } else i = next[i];
+            } else {
+                if (i == 0) next[j++] = i;
+                else i = next[i];
+            }
         }
-        
         return next;
     }
 
@@ -40,10 +28,6 @@ public class KMP {
         if (N < 2) return text.indexOf(pattern);
 
         int[] next = getNext(pattern);
-        for (int i = 0; i < next.length; i++) {
-            System.out.print(next[i] + " ");
-        }
-        System.out.println();
 
         int i = 0;
         int j = 0;
@@ -61,8 +45,8 @@ public class KMP {
     }
 
     public static void main(String[] args) {
-        String text = "ABCABDCABCABDA";
-        String pattern = "ABCABAA";
+        String text = "BBC ABCDAB ABCDABCDABDE";
+        String pattern = "ABCDABD";
 
         long startTime = System.currentTimeMillis();
         System.out.println(kmpSearch(text, pattern));

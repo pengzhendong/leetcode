@@ -38,11 +38,11 @@ public static int violentSearch(String text, String pattern) {
 
 假设 Text 为 ABCABCA，Pattern 为 ABCABDA。当匹配到第六个字母时，发现不匹配。暴力搜索的方法是，让 i 和 j 都回溯，i 回到开始匹配的位置的下一个位置，j 回到 Pattern 的开始位置。从头开始重新匹配：
 
-|         |                                | ↓ i=1     |   |   |   |   |   |   |
-| ------- | ------------------------------ | --------- | - | - | - | - | - | - |
-| Text    | <font color="#0099ff">A</font> | B         | C | A | B | C | A |   |
-| Pattern |                                | A         | B | C | A | B | D | A |
-|         |                                | **↑ j=0** |   |   |   |   |   |   |
+|         |                                | ↓ i=1     |      |      |      |      |      |      |
+| ------- | ------------------------------ | --------- | ---- | ---- | ---- | ---- | ---- | ---- |
+| Text    | <font color="#0099ff">A</font> | B         | C    | A    | B    | C    | A    |      |
+| Pattern |                                | A         | B    | C    | A    | B    | D    | A    |
+|         |                                | **↑ j=0** |      |      |      |      |      |      |
 
 然后会发现这两个字符不匹配，再继续上述操作，直到遍历完 Pattern。思考一下：在 D 字符没有匹配的时候，有必要让 i 回溯吗？
 
@@ -72,14 +72,14 @@ public static int violentSearch(String text, String pattern) {
 
 `ABCABDA` 的 next 数组计算过程如下所示：
 
-| Pattern                | A    | B    | C    | A     | B          | D                | A                       |
-| ---------------------- | ---- | ---- | ---- | ----- | ---------- | ---------------- | ----------------------- |
-| **该字符前面的**字符串   |  | A    | AB   | ABC   | ABCA       | ABCAB            | ABCABD                  |
-| 字符串的前缀 |      |  | <font color="#0099ff">A</font> | <font color="#006400">A, AB</font> | <font color="FF0000">A, AB, ABC</font> | <font color="#808000">A, AB, ABC, ABCA</font> | <font color="#800080">A, AB, ABC, ABCA, ABCAB</font> |
-| 字符串的后缀 |      |  | <font color="#0099ff">B</font> | <font color="#006400">C, BC</font> | <font color="FF0000">A, CA, BCA</font> | <font color="#808000">B, AB, CAB, BCAB</font> | <font color="#800080">D, BD, ABD, CABD, BCABD</font> |
-| 公共前后缀 | | |  |  | <font color="FF0000">A</font> | <font color="#808000">AB</font> |  |
-| 最长公共前后缀 | | |  |  | <font color="FF0000">A</font> | <font color="#808000">AB</font> |  |
-| 最长公共前后缀的长度 | 0 | 0 | 0 | 0 | 1 | 2 | 0 |
+| Pattern             | A | B | C  | A     | B          | D                | A                       |
+| ------------------- | - | - | -- | ----- | ---------- | ---------------- | ----------------------- |
+| **该字符前面的**字符串 |   | A | AB | ABC   | ABCA       | ABCAB            | ABCABD                  |
+| 字符串的前缀          |   |   | A  | A, AB | A, AB, ABC | A, AB, ABC, ABCA | A, AB, ABC, ABCA, ABCAB |
+| 字符串的后缀          |   |   | B  | C, BC | A, CA, BCA | B, AB, CAB, BCAB | D, BD, ABD, CABD, BCABD |
+| 公共前、后缀          |   |   |    |       | A          | AB               |                         |
+| 最长公共前后缀        |   |   |    |       | A          | AB               |                         |
+| 最长公共前后缀的长度   | 0 | 0 | 0  | 0     | 1          | 2                | 0                       |
 
 因此就得到了 next 数组为：`[0, 0, 0, 0, 1, 2, 0]`。也就是说：
 
@@ -169,24 +169,137 @@ if (pattern.charAt(i) == pattern.charAt(j - 1)) {
 | Pattern | A | B  | A | B | A  | C | A |
 | Next    | 0 | 0  | 0 | 1 | ?  |   |   |
 
-同样，可以得到 next[5] = 2，next[6] = 3：
+同样，可以得到 next[4] = 2，next[5] = 3：
 
-|         |   |   |   | ↓i |   |   |   | ↓j |
-| ------- | - | - | - | -- | - | - | - | -- |
-| Index   | 0 | 1 | 2 | 3  | 4 | 5 | 6 | 7  |
-| Pattern | A | B | C | A  | B | C | B | A  |
-| Next    | 0 | 0 | 0 | 0  | 1 | 2 | 3 | ?  |
+|         |   |   |   | ↓i |   |   | ↓j |
+| ------- | - | - | - | -- | - | - | -- |
+| Index   | 0 | 1 | 2 | 3  | 4 | 5 | 6  |
+| Pattern | A | B | A | B  | A | C | A  |
+| Next    | 0 | 0 | 0 | 1  | 2 | 3 | ?  |
 
-此时 `pattern.charAt(i) != pattern.charAt(j - 1)`，因为
+此时 `pattern.charAt(i) != pattern.charAt(j - 1)`，由于 next[i] = 1，<font color="red">所以 i 应该回溯到 next[i] 对应的位置继续判断</font>。即后缀 `ABAC` 无法匹配前缀 `ABAB`，那么就尝试用更短的后缀 `AC` 匹配一个更短的前缀 `AB`。
 
-#### 有限状态机
+|         |   | ↓i |   |   |   |   | ↓j |
+| ------- | - | -- | - | - | - | - | -- |
+| Index   | 0 | 1  | 2 | 3 | 4 | 5 | 6  |
+| Pattern | A | B  | A | B | A | C | A  |
+| Next    | 0 | 0  | 0 | 1 | 2 | 3 | ?  |
 
-对于 `ABCABDA` 我们可以画出求解过程的状态转移图：
+此时依旧 `pattern.charAt(i) != pattern.charAt(j - 1)`，由于 next[i] = 0，所以 i 应该回溯到 next[i] 对应的位置继续判断。
 
+|         | ↓i |   |   |   |   |   | ↓j |
+| ------- | -- | - | - | - | - | - | -- |
+| Index   | 0  | 1 | 2 | 3 | 4 | 5 | 6  |
+| Pattern | A  | B | A | B | A | C | A  |
+| Next    | 0  | 0 | 0 | 1 | 2 | 3 | ?  |
+
+此时依旧 `pattern.charAt(i) != pattern.charAt(j - 1)`，由于 i = 0，无法再回溯，才可以确定 next[j] = 0，随后 j 加一，等于 pattern 的长度所以结束运算。
+
+``` java
+if (pattern.charAt(i) != pattern.charAt(j - 1)) {
+    if (i == 0) {
+        next[j] = i;
+        j++;
+    } else i = next[i];
+}
+```
+
+所以最终，计算 next 数组的代码为：
+
+``` java
+private static int[] getNext(String pattern) {
+    int len = pattern.length();
+    int[] next = new int[len];
+    next[0] = 0;
+    next[1] = 0;
+
+    int i = 0;
+    int j = 2;
+    while (j < len) {
+        if (pattern.charAt(i) == pattern.charAt(j - 1)) {
+            i++;
+            next[j] = i;
+            j++;
+        } else {
+            if (i == 0) {
+                next[j] = i;
+                j++;
+            } else i = next[i];
+        }
+    }
+    return next;
+}
+```
 
 #### 优化
 
+再看一个例子，现在我们已经知道当字符 D 不匹配的时候，j 就会回溯到 next[j] = 2 对应的位置，然后继续与字符 C 进行匹配。
 
+|         |                                |                                |                                | ↓ i=5                      |      |
+| ------- | ------------------------------ | ------------------------------ | ------------------------------ | -------------------------- | ---- |
+| Text    | <font color="#0099ff">A</font> | <font color="#0099ff">B</font> | <font color="#0099ff">A</font> | <font color="red">C</font> | A    |
+| Pattern | <font color="#0099ff">A</font> | <font color="#0099ff">B</font> | <font color="#0099ff">A</font> | <font color="red">B</font> | D    |
+|         |                                |                                |                                | **↑ j=5**                  |      |
+
+由于回溯后 j 所指向的字符依然等于当前所对应的字符，所以肯定也无法匹配：
+
+|         | ↓i |   |   | ↓j |   |
+| ------- | -- | - | - | -- | - |
+| Index   | 0  | 1 | 2 | 3  | 4 |
+| Pattern | A  | B | A | B  | D |
+| Next    | 0  | 0 | 0 | ?  |   |
+
+此时 next[j] 应该等于 next[i]，保证每一步都是回溯到不一样的字符：
+
+|         |   | ↓i |   |    | ↓j |
+| ------- | - | -- | - | -- | -- |
+| Index   | 0 | 1  | 2 | 3  | 4  |
+| Pattern | A | B  | A | B  | D  |
+| Next    | 0 | 0  | 0 | 0  | ?  |
+
+``` java
+if (pattern.charAt(i) == pattern.charAt(j - 1)) {
+    i++;
+    // next[j] 原本应该等于 i，由于 pattern.charAt(j) == pattern.charAt(i)，所以 next[j] = next[i]
+    if (pattern.charAt(i) == pattern.charAt(j)) next[j] = next[i];
+    else next[j] = i;
+    j++;
+}
+```
+
+所以最终计算 next 数组的代码为：
+
+``` java
+private static int[] getNext(String pattern) {
+    int len = pattern.length();
+    int[] next = new int[len];
+    next[0] = 0;
+    next[1] = 0;
+
+    int i = 0;
+    int j = 2;
+    while (j < len) {
+        if (pattern.charAt(i) == pattern.charAt(j - 1)) {
+            i++;
+            if (pattern.charAt(i) == pattern.charAt(j)) next[j] = next[i];
+            else next[j] = i;
+            j++;
+        } else {
+            if (i == 0) {
+                next[j] = i;
+                j++;
+            } else i = next[i];
+        }
+    }
+    return next;
+}
+```
+
+#### 有限状态机
+
+`ABCABDA` 状态转移图：
+
+![](KMP.svg)
 
 ### 代码
 
