@@ -3,7 +3,7 @@ public class ExchangeSort {
     public static void BubbleSort(int[] data) {
         for (int i = 0; i < data.length; i++) {
             boolean swapped = false;
-            for (int j = 0; j < data.length - 1; j++) {
+            for (int j = 0; j < data.length - i - 1; j++) {
                 if (data[j] > data[j + 1]) {
                     Swap.Swap(data, j, j + 1);
                     swapped = true;
