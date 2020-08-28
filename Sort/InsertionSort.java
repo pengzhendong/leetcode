@@ -4,7 +4,7 @@ public class InsertionSort {
         for (int i = 1; i < data.length; i++) {
             int temp = data[i];
             int j = i;
-            
+
             // temp 前面的数都是有序的
             while (j > 0 && data[j - 1] > temp) {
                 // 将所有比 temp 大的元素往后移一个位置
