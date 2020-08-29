@@ -8,8 +8,15 @@ public class SelectSort {
                 if (data[j] < data[min]) min = j;
             }
             // 放到前面去
-            Swap.Swap(data, min, i);
+            swap(data, min, i);
         }
+    }
+
+    // 交换数组中的两个元素
+    public static void swap(int[] data, int i, int j) {
+        int temp = data[i];
+        data[i] = data[j];
+        data[j] = temp;
     }
 
     // 堆排序
@@ -18,10 +25,9 @@ public class SelectSort {
         for (int i = data.length / 2; i >= 0; i--) {
             PercDown(data, i, data.length);
         }
-
         for (int i = data.length - 1; i > 0; i--) {
             //将堆顶的最大元素换到最后面去，相当于出堆
-            Swap.Swap(data, 0, i);
+            swap(data, 0, i);
             //从上往下维护堆，长度减一
             PercDown(data, 0, i);
         }
@@ -35,7 +41,7 @@ public class SelectSort {
             // 该父节点有两个孩子节点且右孩子大，选中右孩子
             if (child != len - 1 && data[child + 1] > data[child]) child++;
             // 如果孩子大，交换父节点和孩子节点
-            if (data[p] < data[child]) Swap.Swap(data, p, child);
+            if (data[p] < data[child]) swap(data, p, child);
             else break;
             // 处理子节点以下的堆
             p = child;

@@ -11,17 +11,14 @@ public class OtherSort {
         for (int i = 0; i < data.length; i++) {
             count[data[i]]++;
         }
-
         // count[x] 记录 data 中数值小于 x 的数的个数
         for (int i = 1; i <= range; i++) {
             count[i] += count[i - 1];
         }
-
         // count-- 为了处理相同的数
         for (int i = data.length - 1; i >= 0; i--) {
             bucket[count[data[i]]--] = data[i];
         }
-
         //将数放回 data
         for (int i = 0; i < data.length; i++) {
             data[i] = bucket[i + 1];
@@ -50,7 +47,6 @@ public class OtherSort {
                 // 统计各个桶将要装入的数据个数
                 count[n]++;
             }
-
             // count[i] 表示第i个桶的位置
             for (int j = 1; j < radix; j++) {
                 count[j] = count[j] + count[j - 1];
@@ -64,7 +60,6 @@ public class OtherSort {
                 // 对应桶的装入数据的位置减一
                 count[n]--;
             }
-
             //将前位数有序的数据倒出来，进行更高位的排序
             for (int j = 0; j < data.length; j++) {
                 data[j] = bucket[j];

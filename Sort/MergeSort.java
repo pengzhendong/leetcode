@@ -4,10 +4,8 @@ public class MergeSort {
         // 记录开始索引，用于将结果放回
         int begin = lBegin;
         int rBegin = lEnd + 1;
-
         int[] temp = new int[rEnd - lBegin + 1];
         int temPos = 0;
-
         // 合并两个子数组
         while (lBegin <= lEnd && rBegin <= rEnd) {
             if (data[lBegin] <= data[rBegin]) temp[temPos++] = data[lBegin++];
@@ -15,13 +13,8 @@ public class MergeSort {
         }
 
         // 将剩下的数直接插 temp 入后面
-        while (lBegin <= lEnd) {
-            temp[temPos++] = data[lBegin++];
-        }
-        while (rBegin <= rEnd) {
-            temp[temPos++] = data[rBegin++];
-        }
-
+        while (lBegin <= lEnd) temp[temPos++] = data[lBegin++];
+        while (rBegin <= rEnd) temp[temPos++] = data[rBegin++];
         // 将 temp 中的有序数放回 data
         for (int i = begin; i <= rEnd; i++) {
             data[i] = temp[i - begin];

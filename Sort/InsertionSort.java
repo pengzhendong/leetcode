@@ -1,23 +1,44 @@
 public class InsertionSort {
     // 简单插入排序
-    public static void SimpleInsertSort(int[] data) {
+    public static void SimpleInsertionSort(int[] data) {
         for (int i = 1; i < data.length; i++) {
-            int temp = data[i];
             int j = i;
-
-            // temp 前面的数都是有序的
-            while (j > 0 && data[j - 1] > temp) {
-                // 将所有比 temp 大的元素往后移一个位置
-                data[j] = data[j - 1];
+            // i 前面的数都是有序的
+            while (j > 0 && data[j] < data[j - 1]) {
+                swap(data, j, j - 1);
                 j--;
             }
-            // 插入 temp
-            data[j] = temp;
         }
     }
 
+    // 无监督项插入排序
+    public static void InsertionSort(int[] data) {
+        // 将最小的数移动到最前面，则在插入期间避免判断数组越界
+        int index = 0;
+        for (int i = 1; i < data.length; i++) {
+            if (data[i] < data[index]) index = i;
+        }
+        swap(data, index, 0);
+
+        for (int i = 2; i < data.length; i++) {
+            int j = i;
+            // i 前面的数都是有序的
+            while (data[j] < data[j - 1]) {
+                swap(data, j, j - 1);
+                j--;
+            }
+        }
+    }
+
+    // 交换数组中的两个元素
+    public static void swap(int[] data, int i, int j) {
+        int temp = data[i];
+        data[i] = data[j];
+        data[j] = temp;
+    }
+
     // 折半插入排序
-    public static void HalfInsertSort(int[] data) {
+    public static void HalfInsertionSort(int[] data) {
         for (int i = 1; i < data.length; i++) {
             int temp = data[i];
             int low = 0;
@@ -29,7 +50,6 @@ public class InsertionSort {
                 if (temp > data[mid]) low = mid + 1;
                 else high = mid - 1;
             }
-
             // 将 data[low] ~ data[i - 1] 往后移一个位置
             for (int j = i; j > low; j--) {
                 data[j] = data[j - 1];
