@@ -18,7 +18,10 @@ public class InsertionSort {
         for (int i = 1; i < data.length; i++) {
             if (data[i] < data[index]) index = i;
         }
-        swap(data, index, 0);
+        // 为了保证排序的稳定性，需要一个一个移动
+        for (int i = index; i > 0; i--) {
+            swap(data, i, i - 1);
+        }
 
         for (int i = 2; i < data.length; i++) {
             int j = i;
